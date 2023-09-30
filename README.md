@@ -67,7 +67,7 @@ git clone https://github.com/litagin02/vits-japros-webui.git
 モデルは`weights`ディレクトリにサブディレクトリを作って、その中に`{数字}epoch.pth`ファイルを入れてください。
 外部モデル（ESPnetでVITSでpyopenjtalk_prosodyで作ったモデルのみ対応）を使う場合は、学習時の`config.yaml`も入れてください。
 
-```sh
+```
 weights
 ├── model1
 │    └── 100epoch.pth
