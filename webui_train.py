@@ -51,16 +51,23 @@ def run_preprocess(model_name: str, method: str = "通常") -> str:
     return "前処理が完了しました。"
 
 
-def run_tensorboard(model_name: str):
-    tensorboard_cmd = [python, "-m", "tensorboard.main"]
-    log_path = os.path.join("outputs", model_name, "checkpoints", "tensorboard")
-    tensorboard_cmd.extend(["--logdir", log_path])
+tensorboard_executed = False
 
-    subprocess.Popen(tensorboard_cmd, stdout=sys.stdout, stderr=sys.stdout)
+
+def run_tensorboard(model_name: str):
+    global tensorboard_executed
+    if not tensorboard_executed:
+        tensorboard_cmd = [python, "-m", "tensorboard.main"]
+        log_path = os.path.join("outputs", model_name, "checkpoints", "tensorboard")
+        tensorboard_cmd.extend(["--logdir", log_path])
+
+        subprocess.Popen(tensorboard_cmd, stdout=sys.stdout, stderr=sys.stdout)
+
+        tensorboard_executed = True
 
     time.sleep(1)
     webbrowser.open(
-        "http://127.0.0.1:6006/?pinnedCards=%5B%7B%22plugin%22%3A%22scalars%22%2C%22tag%22%3A%22generator_mel_loss%22%7D%2C%7B%22plugin%22%3A%22scalars%22%2C%22tag%22%3A%22generator_loss%22%7D%5D"
+        "http://localhost:6006/?pinnedCards=%5B%7B%22plugin%22%3A%22scalars%22%2C%22tag%22%3A%22generator_mel_loss%22%7D%2C%7B%22plugin%22%3A%22scalars%22%2C%22tag%22%3A%22generator_loss%22%7D%5D"
     )
 
 
