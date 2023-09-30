@@ -21,7 +21,7 @@ def run_train(model_name: str, max_epoch: int = 200, batch_bins: int = 1000000) 
     print("Submitted to subprocess.")
     subprocess.Popen(cmd, stdout=sys.stdout, stderr=sys.stdout)
 
-    return "学習が開始されました。"
+    return "学習が開始されました。詳細はターミナルとTensorBoardを確認してください。"
 
 
 if __name__ == "__main__":

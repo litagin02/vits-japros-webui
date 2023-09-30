@@ -11,7 +11,7 @@ venv\Scripts\activate
 ## 補足
 
 - 音声データのうち5ファイルは学習データとして使われず、検証データとして使われます。
-- どれだけの音声データがあれば質が良くなるか等は分かりません、実験してください。Tensorboardの`generator_mel_loss`がいい指標かもしれません。
+- どれだけの音声データがあれば質が良くなるか等は分かりません、実験してください。TensorBoardの`generator_mel_loss`がいい指標かもしれません。
 - 学習を途中で中断したい場合は単にターミナルを閉じてください。学習を再開したいときは、最後のステップ以外を飛ばし、最後のステップを「同じモデル名」で実行すれば、`data/outputs/{model_name}/checkpoints`に保存されている最新エポック・最新状態から再開されます。
 - 音声合成に使うには、`weights/{model_name}`フォルダを作って、`outputs/{model_name}/checkpoints`にある`{数字}epoch.pth`ファイルをコピーしてください。**学習中はグラボが競合しないように、音声合成はCPUモードを選んでください。**
 
@@ -83,7 +83,7 @@ python preprocess.py model_name wavs_dir
 python train.py model_name [max_epochs=200] [batch_bins=1000000]
 ```
 
-## Tensorboardでの可視化
+## TensorBoardでの可視化
 ```bash
 tensorboard --logdir outputs/{model_name}/checkpoints/tensorboard/
 ```

@@ -77,7 +77,7 @@ VITSのJaProsモデルを学習します。以下のStep 0からStep 3に従っ�
 補足
 
 - 音声データのうち5ファイルは学習データとして使われず、検証データとして使われます。
-- どれだけの音声データがあれば質が良くなるか等は分かりません、実験してください。Tensorboardの`generator_mel_loss`がいい指標かもしれません。
+- どれだけの音声データがあれば質が良くなるか等は分かりません、実験してください。TensorBoardの`generator_mel_loss`がいい指標かもしれません。
 - 学習を途中で中断したい場合は単にターミナルを閉じてください。学習を再開したいときは、最後のステップ以外を飛ばし、最後のステップを「同じモデル名」で実行すれば、`data/outputs/{model_name}/checkpoints`に保存されている最新エポック・最新状態から再開されます。
 - 音声合成に使うには、`weights/{model_name}`フォルダを作って、`outputs/{model_name}/checkpoints`にある`{数字}epoch.pth`ファイルをコピーしてください。**学習中はグラボが競合しないように、音声合成はCPUモードを選んでください。**
 """
@@ -190,9 +190,9 @@ with gr.Blocks(title="VITS-JaPros-WebUI 学習") as app:
         )
         with gr.Row():
             gr.Markdown(
-                "Tensorboardのグラフを見ながら、（RVCと同様に）generator_mel_lossが20を切ってどんどん下がっていけば行くほど良くなる気がします（過学習はどういう感じか知らない）。右のボタンでTensorbaordを開けます。"
+                "TensorBoardのグラフを見ながら、（RVCと同様に）generator_mel_lossが20を切るぐらいに下がっていけば行くほど良くなる気がします（過学習はどういう感じか知らない）。右のボタンでTensorbaordを開けます。"
             )
-            button_tensorboard = gr.Button("Tensorboardを開く")
+            button_tensorboard = gr.Button("TensorBoardを開く")
             button_tensorboard.click(
                 fn=run_tensorboard, inputs=[train_model_name2], outputs=[]
             )
