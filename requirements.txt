@@ -10,7 +10,7 @@ librosa==0.10.1
 # pyopenjtalk==0.3.2
 pyopenjtalk-prebuilt==0.3.0
 pyworld==0.3.4
-sentencepiece==0.1.97
+sentencepiece==0.1.99
 tensorboard==2.14
 torch_complex
 typeguard==2.13.3
