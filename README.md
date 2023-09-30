@@ -59,6 +59,7 @@ git clone https://github.com/litagin02/vits-japros-webui.git
 
 - 学習：`webui_train.bat`をダブルクリック
 - 音声合成：下を参照して`pth`ファイルを配置してから`webui_infer.bat`をダブルクリック
+- アップデート: `update.bat`をダブルクリック
 
 詳しい情報・WebUIがいらない方は[こちら](docs/CLI.md)をご覧ください。
 
