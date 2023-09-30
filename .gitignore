@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+outputs/
+*.wav
+*.pth
+*.bak
