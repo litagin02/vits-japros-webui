@@ -27,6 +27,7 @@ def g2p(text: str) -> str:
         tokens = tokens[:-1]  # 疑問文でないとき'$'を落とす
     tokens = [p2kata[token] if token in p2kata else token for token in tokens]
     # アルファベットを並べてjaconvでカタカナに変換
+    # TODO: `di`が`ヂ`になるの等の問題があるので、手動でがんばったほうがいいかも
     return jaconv.alphabet2kata("".join(tokens))
 
 
