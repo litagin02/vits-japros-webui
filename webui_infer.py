@@ -103,7 +103,7 @@ with gr.Blocks(title="VITS-JaPros-WebUI 音声合成") as app:
     with gr.Column():
         p = gr.Textbox(
             label="解析結果",
-            info="必要に応じて、記法ルールを見ながら正しいアクセントになるように修正してください。（直接ここに内容を入力することもできます。）",
+            info="必要に応じて、記法ルールを見ながら正しいアクセントになるように修正してください。（`ディ`が`ヂ`になる等バグがあるので修正してください）（直接ここに内容を入力することもできます。）",
         )
         with gr.Accordion("アクセント等の記法ルール", open=False):
             gr.Markdown(accent_guide)
