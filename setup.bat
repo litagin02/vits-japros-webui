@@ -8,8 +8,8 @@ if errorlevel 1 (
     exit /b
 )
 
-echo Installing torch and torchaudio...
-venv\Scripts\pip install torch torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
+echo Installing torch...
+venv\Scripts\pip3 install torch torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 if errorlevel 1 (
     echo Error: Failed to install torch and torchaudio.

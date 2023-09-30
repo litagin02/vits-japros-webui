@@ -120,9 +120,6 @@ TIPS:
 が、こだわりすぎなくても大丈夫かもしれません、よく分かりません。
 """
 
-step_3_md = """
-WIP
-"""
 
 with gr.Blocks(title="VITS-JaPros-WebUI 学習") as app:
     gr.Markdown(train_initial_md)
@@ -149,7 +146,9 @@ with gr.Blocks(title="VITS-JaPros-WebUI 学習") as app:
                 choices=["通常", "分割"],
                 value="通常",
             )
-            train_model_name = gr.Textbox(label="モデル名（半角英数字）", value="test_model")
+            train_model_name = gr.Textbox(
+                label="モデル名（空白を含まない半角英数字）", value="test_model"
+            )
             button_preprocess = gr.Button("Step 2の実行", variant="primary")
             result_preprocess = gr.Textbox(label="結果")
             button_preprocess.click(
@@ -163,9 +162,10 @@ with gr.Blocks(title="VITS-JaPros-WebUI 学習") as app:
                 outputs=[trans_choice_2],
             )
     with gr.Accordion("Step 3: 学習の開始", open=False):
-        gr.Markdown("WIP")
         with gr.Row():
-            train_model_name2 = gr.Textbox(label="モデル名（半角英数字）", value="test_model")
+            train_model_name2 = gr.Textbox(
+                label="モデル名（Step 2で入れた名前）", value="test_model"
+            )
             batch_bins = gr.Slider(
                 label="batch_bins",
                 info="バッチサイズのようなもの? GPUのVRAMに収まるように調整してください",

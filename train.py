@@ -19,7 +19,7 @@ def run_train(model_name: str, max_epoch: int = 200, batch_bins: int = 1000000) 
 
     print(" ".join(cmd))
     print("Submitted to subprocess.")
-    result = subprocess.run(cmd, stdout=sys.stdout, stderr=sys.stdout)
+    result = subprocess.Popen(cmd, stdout=sys.stdout, stderr=sys.stdout)
     if result.returncode != 0:
         return "エラーが発生したようです。"
     return "学習が完了しました。"
