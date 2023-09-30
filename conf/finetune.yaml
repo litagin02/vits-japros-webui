@@ -1,3 +1,6 @@
+# この設定ファイルはespnet2のttsのtsukuyomi finetuneレシピからお借りしています：
+# https://github.com/espnet/espnet/blob/master/egs2/tsukuyomi/tts1/conf/tuning/finetune_vits.yaml
+
 # This configuration is for ESPnet2 to finetune 44.1 kHz VITS,
 # which is truely end-to-end text-to-waveform model. To run
 # this config, you need to specify "--tts_task gan_tts"
