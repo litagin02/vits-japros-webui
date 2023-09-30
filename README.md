@@ -1,4 +1,4 @@
-# VITS-JaPros-webui
+# VITS-JaPros-WebUI
 
 日本語VITSモデルを学習でき、アクセント指定込みで音声合成するWebUIです。
 
