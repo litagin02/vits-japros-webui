@@ -138,7 +138,7 @@ with gr.Blocks(title="VITS-JaPros-WebUI 音声合成") as app:
                     value=0,
                     step=0.01,
                 )
-    button_infer = gr.Button(value="音声合成!", variant="primary")
+    button_infer = gr.Button(value="音声合成！（Enter可）", variant="primary")
     output_audio = gr.Audio(label="結果")
     button_infer.click(
         fn=inference,
