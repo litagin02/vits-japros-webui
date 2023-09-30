@@ -2,7 +2,9 @@
 
 日本語VITSモデルを学習でき、アクセント指定込みで音声合成するWebUIです。
 
-[🤗 デモ](https://huggingface.co/spaces/litagin/vits-japros-webui-demo)
+[🤗 音声合成のデモ](https://huggingface.co/spaces/litagin/vits-japros-webui-demo)
+
+![demo](assets/webui.jpg)
 
 ## JaPros?
 
