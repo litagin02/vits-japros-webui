@@ -1,6 +1,6 @@
 # VITS-JaPros-WebUI
 
-日本語VITSモデルを学習でき、アクセント指定込みで音声合成するWebUIです。
+日本語VITSモデルを学習でき、アクセント指定込みで音声合成できる、Windows用WebUIです。
 
 [🤗 音声合成のデモ](https://huggingface.co/spaces/litagin/vits-japros-webui-demo)
 
@@ -12,7 +12,7 @@
 - ESPnetでのTTS学習の方法として[VITS](https://arxiv.org/abs/2106.06103)が使える。
 - ESPnetではTTS学習の際、学習テキスト（日本語文）から音素列へ変換する方法(*g2p*)を指定でき、その中の一つにアクセント記号を付加した`pyopenjtalk_prosody`がある。
 
-という状況で、**日本語をg2pは`pyopenjtalk_prosody`で訓練したモデル**のことを、JApanese ..._PROSodyから取って**JaPros**と便宜上読んでいます（Bingちゃんからの提案）。
+という状況で、**日本語でg2pを`pyopenjtalk_prosody`にして訓練したモデル**のことを、JApanese ..._PROSodyから取って**JaPros**と便宜上読んでいます（Bingちゃんからの提案）。
 
 pyopenjtalk_prosodyではアクセント等の記号も扱われているので、それを使ってアクセント（`ハ➚シ` v.s. `ハ➘シ`等）が制御できます。
 
@@ -30,12 +30,12 @@ pyopenjtalk_prosodyではアクセント等の記号も扱われているので�
 
 ## これは何?
 
-これは、Windows環境でVITS JaProsモデルを学習したり、読み込んで音声合成できるやつです。
+これは、Windowsローカル環境でVITS JaProsモデルを学習したり、読み込んで音声合成できるやつです。
 
 ### 学習について
 
 - [faster-whisper](https://github.com/guillaumekln/faster-whisper)による、音声ファイルからの自動書き起こし機能つき
-- 学習自体は[ESPnet](https://github.com/espnet/espnet)をWindows用で動くように改造して、VITS JaProsを最低限の操作で学習できるようにしたもの
+- 学習自体は[ESPnet](https://github.com/espnet/espnet)をWindowsで動くように改造して、VITS JaProsを最低限の操作で学習できるようにしたもの
 
 ### 音声合成について
 
@@ -81,4 +81,4 @@ weights
 ```
 
 ## クレジット
-- [ESPnet](https://github.com/espnet/espnet): このリポジトリでは、オリジナルのESPnetのPythonモジュールをWindowsで動くように改造して使っています（改造箇所は`os.uname`の使用箇所とシンボリック作成箇所のみです）。
+- [ESPnet](https://github.com/espnet/espnet): このリポジトリでは、オリジナルのESPnetのPythonモジュールをWindowsで動くように改造して使っています（改造箇所は`os.uname`の使用箇所とシンボリックリンク作成箇所のみです）。
