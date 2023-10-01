@@ -3,9 +3,11 @@ import os
 import sys
 
 import librosa
+import numpy as np
 import soundfile as sf
-from espnet2.text.phoneme_tokenizer import pyopenjtalk_g2p_prosody
 from tqdm import tqdm
+
+from espnet2.text.phoneme_tokenizer import pyopenjtalk_g2p_prosody
 
 data_dir = "data"
 transcript_path = os.path.join(data_dir, "transcript_utf8.txt")
@@ -24,7 +26,8 @@ def dump_dir_of(model_name: str) -> str:
 def normalize_wav(wav_path: str, normalized_wav_path: str):
     wav, sr = sf.read(wav_path)
     if len(wav.shape) == 2:
-        raise Exception(f"{wav_path} がモノラルではありません。")
+        print(f"{wav_path}はステレオです。モノラルに変換します。")
+        wav = np.mean(wav, axis=1)  # ステレオをモノラルに変換
     if sr != sampling_rate:
         wav = librosa.resample(wav, orig_sr=sr, target_sr=sampling_rate)
     wav = librosa.effects.trim(wav, top_db=30)[0]
