@@ -102,8 +102,8 @@ with gr.Blocks(title="VITS-JaPros-WebUI 音声合成") as app:
         button_2p = gr.Button(value="アクセント解析\n(Enter可)", variant="primary", scale=0)
     with gr.Column():
         p = gr.Textbox(
-            label="解析結果",
-            info="必要に応じて、記法ルールを見ながら正しいアクセントになるように修正してください。（`ディ`が`ヂ`になる等バグがあるので修正してください）（直接ここに内容を入力することもできます。）",
+            label="解析結果（これをもとに音声合成します）",
+            info="必要に応じて、記法ルールを見ながら正しいアクセントになるように修正してください（直接ここに内容を入力することもできます）",
         )
         with gr.Accordion("アクセント等の記法ルール", open=False):
             gr.Markdown(accent_guide)
