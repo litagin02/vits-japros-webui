@@ -1,6 +1,6 @@
 このフォルダには以下のようにファイルを準備してください。
 
-- wavsフォルダ
+- wavsフォルダに音声ファイル（wav形式）
 - transcript_utf8.txt
 
 transcript_utf8.txtの中身は以下の感じ（whisperを使う場合は自動で作られます。）
