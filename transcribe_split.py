@@ -27,6 +27,10 @@ def transcribe_and_split(
         wav_path, language="ja", word_timestamps=True, initial_prompt=initial_prompt
     )
 
+    segments = list(segments)
+    if len(segments) == 0:
+        return
+
     # wavを読み込む
     y, sr = librosa.load(wav_path, sr=None)
 
@@ -50,8 +54,6 @@ def transcribe_and_split(
             split_audio = y[current_start_sample:end_with_margin]
             split_audios.append(split_audio)
             transcriptions.append(current_transcription)
-
-    segments = list(segments)
 
     for segment in segments:
         for word in segment.words:

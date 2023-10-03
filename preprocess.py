@@ -135,6 +135,7 @@ if __name__ == "__main__":
 
     print("---")
     print("wavファイルを正規化しています...")
+    # TODO: transcriptにないwavファイルも正規化処理が走りちょっと無駄。
     normalize_wavs_batch(wavs_dir, normalized_wavs_dir)
     print("正規化完了！")
 

@@ -21,7 +21,9 @@ def transcribe(audio_path, initial_prompt=None, allow_multi_segment=False):
         audio_path, beam_size=5, language="ja", initial_prompt=initial_prompt
     )
     texts = [segment.text for segment in segments]
-    if len(texts) > 1:
+    if len(texts) == 0:
+        return None
+    elif len(texts) > 1:
         # print("セグメントが複数あります：")
         # print(texts)
         if allow_multi_segment:
