@@ -4,7 +4,9 @@
 
 [🤗 音声合成のデモ](https://huggingface.co/spaces/litagin/vits-japros-webui-demo)
 
-![demo](assets/webui.jpg)
+|音声合成|学習|
+|:---:|:---:|
+|![demo](assets/japros-infer.jpg)|![demo](assets/japros-train.jpg)|
 
 ## JaPros?
 
