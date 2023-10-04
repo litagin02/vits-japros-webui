@@ -47,11 +47,10 @@ def transcribe_and_split(
 
     def save_current_segment(end_sample):
         if current_start_sample is not None:
-            end_with_margin = min(
-                len(y), end_sample + margin_samples
-            )  # 終了がぶつ切りになる場合が多いので、マージンを持たせる
-            # split_audio = y[start_with_margin:end_with_margin]
-            split_audio = y[current_start_sample:end_with_margin]
+            start_with_margin = max(0, current_start_sample - margin_samples)
+            end_with_margin = min(len(y), end_sample + margin_samples)
+            split_audio = y[start_with_margin:end_with_margin]
+            # split_audio = y[current_start_sample:end_with_margin]
             split_audios.append(split_audio)
             transcriptions.append(current_transcription)
 
@@ -91,7 +90,7 @@ def transcribe_and_split(
             result = result.strip()
             result = result.replace(".", "。")
             result = result.replace(" ", "、")
-            f.write(f"{wav_name}-{idx}:{transcription}\n")
+            f.write(f"{wav_name}-{idx}:{result}\n")
 
 
 # 以下、実行部分

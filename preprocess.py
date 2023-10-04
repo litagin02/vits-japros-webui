@@ -23,7 +23,7 @@ def dump_dir_of(model_name: str) -> str:
     return os.path.join(output_dir, model_name, "dump")
 
 
-def normalize_wav(wav_path: str, normalized_wav_path: str):
+def normalize_wav(wav_path: str, output_dir: str):
     wav, sr = sf.read(wav_path)
     if len(wav.shape) == 2:
         print(f"{wav_path}はステレオです。モノラルに変換します。")
@@ -32,25 +32,19 @@ def normalize_wav(wav_path: str, normalized_wav_path: str):
         wav = librosa.resample(wav, orig_sr=sr, target_sr=sampling_rate)
     wav = librosa.effects.trim(wav, top_db=30)[0]
     normalized_wav = librosa.util.normalize(wav) * 0.9
-    sf.write(normalized_wav_path, normalized_wav, sampling_rate, "PCM_16")
-
-
-def normalize_wavs_batch(wavs_dir: str, normalized_wavs_dir: str):
-    os.makedirs(normalized_wavs_dir, exist_ok=True)
-    wav_paths = sorted(glob.glob(wavs_dir + "/**/*.wav", recursive=True))
-    for wav_path in tqdm(
-        wav_paths, desc="wavファイルの正規化中...", total=len(wav_paths), file=sys.stdout
-    ):
-        normalized_wav_path = os.path.join(
-            normalized_wavs_dir, os.path.basename(wav_path)
-        )
-        normalize_wav(wav_path, normalized_wav_path)
+    sf.write(
+        os.path.join(output_dir, os.path.basename(wav_path)),
+        normalized_wav,
+        sampling_rate,
+        "PCM_16",
+    )
 
 
 def split_data_and_dump(
     model_name: str,
     transcript_path: str,
     wavs_dir: str,
+    normalized_wavs_dir: str,
     valid_count: int = 5,
 ):
     dump_dir = dump_dir_of(model_name)
@@ -69,10 +63,15 @@ def split_data_and_dump(
     common_wavs = [wav for wav in wavs if wav in transcripts.keys()]
     common_wavs.sort()
 
+    # Normalize common wavs
+    for wav in tqdm(common_wavs, desc="wavファイルの正規化中...", file=sys.stdout):
+        normalize_wav(os.path.join(wavs_dir, wav + ".wav"), normalized_wavs_dir)
+
     # Split into training and validation
     valid_wavs = common_wavs[:valid_count]
     train_wavs = common_wavs[valid_count:]
 
+    # Write transcripts and wav.scp
     for folder, dataset in [("train", train_wavs), ("valid", valid_wavs)]:
         with open(
             os.path.join(dump_dir, folder, "text"),
@@ -85,7 +84,9 @@ def split_data_and_dump(
         ) as f_wavscp:
             for wav in dataset:
                 f_text.write(f"{wav} {transcripts[wav]}\n")
-                f_wavscp.write(f"{wav} {os.path.join(wavs_dir, wav + '.wav')}\n")
+                f_wavscp.write(
+                    f"{wav} {os.path.join(normalized_wavs_dir, wav + '.wav')}\n"
+                )
 
 
 def process_shapes(model_name: str):
@@ -132,18 +133,16 @@ if __name__ == "__main__":
     model_name = sys.argv[1]
     wavs_dir = sys.argv[2]
     normalized_wavs_dir = os.path.join(output_dir, model_name, "normalized_wavs")
+    os.makedirs(normalized_wavs_dir, exist_ok=True)
 
     print("---")
-    print("wavファイルを正規化しています...")
-    # TODO: transcriptにないwavファイルも正規化処理が走りちょっと無駄。
-    normalize_wavs_batch(wavs_dir, normalized_wavs_dir)
-    print("正規化完了！")
 
-    print("データを分割しています...")
+    print("wavファイルを正規化・データを分割しています...")
     split_data_and_dump(
         model_name=model_name,
         transcript_path=transcript_path,
-        wavs_dir=normalized_wavs_dir,
+        wavs_dir=wavs_dir,
+        normalized_wavs_dir=normalized_wavs_dir,
         valid_count=5,
     )
     print("完了！")
