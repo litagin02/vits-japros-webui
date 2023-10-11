@@ -71,16 +71,16 @@ TIPS:
 - `wavs_dir`は、自動書き起こしを使わなかった場合・通常オプションを使った場合は`data/wavs/`、分割オプションを使った場合は`data/split_wavs/`を指定してください。
 
 ```bash
-python preprocess.py --model-name model_name --wavs-dir wavs_dir
+python preprocess.py --model-name {model_name} --wavs-dir {wavs_dir}
 ```
 
 ## 4. 学習
 - `model_name`は上で指定したものと同じものを指定してください。
-- `max_epochs`は、最大学習エポック数を指定します。デフォルトは200です。
+- `max_epoch`は、最大学習エポック数を指定します。デフォルトは200です。
 - `batch_bins`は、学習時のバッチサイズのようなものを指定します。デフォルトは1000000です。多いほどグラボのVRAM使用量は上がりますが、学習データ量によりどの程度まで上げられるかは変わるみたいです。グラボのVRAMに合わせてはみ出ないようにしてください。
 
 ```bash
-python train.py --model-name model_name --max-epochs 200 --batch-bins 1000000
+python train.py --model-name {model_name} --max-epoch {max_epoch} --batch-bins {batch_bins}
 ```
 
 ## TensorBoardでの可視化
