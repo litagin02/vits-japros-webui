@@ -1,6 +1,6 @@
 # VITS-JaPros-WebUI
 
-日本語VITSモデルを学習でき、アクセント指定込みで音声合成できる、Windows用WebUIです。
+日本語VITSモデルを学習でき、アクセント指定込みで音声合成できる、Windows用WebUIです。音声合成のみならグラボがなくても使えます。
 
 [🤗 音声合成のデモ](https://huggingface.co/spaces/litagin/vits-japros-webui-demo)
 
