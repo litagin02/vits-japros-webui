@@ -40,8 +40,10 @@ def run_preprocess(model_name: str, method: str = "通常") -> str:
         wavs_dir = os.path.join(data_dir, "split_wavs")
     elif method == "通常":
         wavs_dir = os.path.join(data_dir, "wavs")
+    else:
+        raise ValueError(f"Invalid method: {method}")
     result = subprocess.run(
-        [python, "preprocess.py", model_name, wavs_dir],
+        [python, "preprocess.py", "--model-name", model_name, "--wavs-dir", wavs_dir],
         stdout=sys.stdout,
         stderr=subprocess.PIPE,
         text=True,

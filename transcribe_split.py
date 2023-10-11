@@ -1,3 +1,4 @@
+import argparse
 import glob
 import os
 import sys
@@ -8,17 +9,20 @@ import librosa
 import soundfile as sf
 from faster_whisper import WhisperModel
 
-model_size = "large-v2"
 
-print("---")
-print("文字の書き起こしを開始します。")
-print("Whisperモデルをロード中...")
-model = WhisperModel(model_size, device="cuda", compute_type="float16")
-print("Whisperモデルをロードしました。")
+def load_whisper_model(model_size: str = "large-v2"):
+    print("Whisperモデルをロード中...")
+    model = WhisperModel(model_size, device="cuda", compute_type="float16")
+    print("Whisperモデルをロードしました。")
+    return model
 
 
 def transcribe_and_split(
-    wav_path: str, split_wavs_dir: str, transcript_path: str, initial_prompt: str
+    model: WhisperModel,
+    wav_path: str,
+    split_wavs_dir: str,
+    transcript_path: str,
+    initial_prompt: str,
 ):
     wav_name = os.path.basename(wav_path)[:-4]
     os.makedirs(split_wavs_dir, exist_ok=True)
@@ -93,30 +97,34 @@ def transcribe_and_split(
             f.write(f"{wav_name}-{idx}:{result}\n")
 
 
-# 以下、実行部分
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--prompt", type=str, default="こんにちは。元気、ですかー？私はちゃんと元気だよ。")
+    parser.add_argument("--data-dir", type=str, default="data")
+    args = parser.parse_args()
 
-# ディレクトリのパスを指定
-wavs_dir = os.path.join("data", "wavs")
-transcript_path = os.path.join("data", "transcript_utf8.txt")
-split_wavs_dir = os.path.join("data", "split_wavs")
+    initial_prompt = args.prompt
+    data_dir = args.data_dir
 
-# initial_promptで句読点付き例文を入れると、書き起こしでも句読点が入るようになる
-try:
-    initial_prompt = sys.argv[1]
-except IndexError:
-    initial_prompt = "こんにちは。元気、ですかー？私はちゃんと元気だよ。"
+    wavs_dir = os.path.join(data_dir, "wavs")
+    transcript_path = os.path.join(data_dir, "transcript_utf8.txt")
+    split_wavs_dir = os.path.join(data_dir, "split_wavs")
 
+    wav_paths = sorted(glob.glob(wavs_dir + "/**/*.wav", recursive=True))
+    print(f"wavファイルの数: {len(wav_paths)}")
 
-wav_paths = sorted(glob.glob(wavs_dir + "/**/*.wav", recursive=True))
-print(f"wavファイルの数: {len(wav_paths)}")
+    model = load_whisper_model()
 
-if os.path.exists(transcript_path):
-    os.remove(transcript_path)
+    if os.path.exists(transcript_path):
+        print(f"{transcript_path}が既に存在するので削除しています...")
+        os.remove(transcript_path)
 
-for wav_path in tqdm(wav_paths, file=sys.stdout):
-    transcribe_and_split(wav_path, split_wavs_dir, transcript_path, initial_prompt)
+    for wav_path in tqdm(wav_paths, file=sys.stdout):
+        transcribe_and_split(
+            model, wav_path, split_wavs_dir, transcript_path, initial_prompt
+        )
 
-print(
-    "書き起こし処理が完了しました。`data/split_wavs/`ディレクトリと`data/transcript_utf8.txt`を確認して、必要なら修正してください。"
-)
-print("---")
+    print(
+        "書き起こし処理が完了しました。`data/split_wavs/`ディレクトリと`data/transcript_utf8.txt`を確認して、必要なら修正してください。"
+    )
+    print("---")

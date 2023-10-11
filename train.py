@@ -1,3 +1,4 @@
+import argparse
 import sys
 import subprocess
 
@@ -25,10 +26,14 @@ def run_train(model_name: str, max_epoch: int = 200, batch_bins: int = 1000000) 
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python train.py model_name [max_epoch] [batch_bins]")
-        sys.exit(1)
-    model_name = sys.argv[1]
-    max_epoch = int(sys.argv[2]) if len(sys.argv) > 2 else 200
-    batch_bins = int(sys.argv[3]) if len(sys.argv) > 3 else 1000000
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model-name", type=str, required=True)
+    parser.add_argument("--max-epoch", type=int, default=200)
+    parser.add_argument("--batch-bins", type=int, default=1000000)
+    args = parser.parse_args()
+
+    model_name = args.model_name
+    max_epoch = args.max_epoch
+    batch_bins = args.batch_bins
+
     run_train(model_name, max_epoch, batch_bins)

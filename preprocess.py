@@ -1,4 +1,4 @@
-import glob
+import argparse
 import os
 import sys
 
@@ -9,10 +9,6 @@ from tqdm import tqdm
 
 from espnet2.text.phoneme_tokenizer import pyopenjtalk_g2p_prosody
 
-data_dir = "data"
-transcript_path = os.path.join(data_dir, "transcript_utf8.txt")
-
-output_dir = "outputs"
 
 sampling_rate = 44100
 
@@ -128,15 +124,25 @@ def process_shapes(model_name: str):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        raise ValueError("Usage: python preprocess.py model_name wavs_dir")
-    model_name = sys.argv[1]
-    wavs_dir = sys.argv[2]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data-dir", type=str, default="data")
+    parser.add_argument("--output-dir", type=str, default="outputs")
+    parser.add_argument("--wavs-dir", type=str, required=True)
+    parser.add_argument("--model-name", type=str, required=True)
+
+    args = parser.parse_args()
+
+    data_dir = args.data_dir
+    output_dir = args.output_dir
+    model_name = args.model_name
+    wavs_dir = args.wavs_dir
+
+    transcript_path = os.path.join(data_dir, "transcript_utf8.txt")
     normalized_wavs_dir = os.path.join(output_dir, model_name, "normalized_wavs")
+
     os.makedirs(normalized_wavs_dir, exist_ok=True)
 
     print("---")
-
     print("wavファイルを正規化・データを分割しています...")
     split_data_and_dump(
         model_name=model_name,

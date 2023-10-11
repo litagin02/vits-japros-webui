@@ -1,3 +1,4 @@
+import argparse
 import glob
 import os
 import sys
@@ -6,16 +7,17 @@ import jaconv
 from faster_whisper import WhisperModel
 from tqdm import tqdm
 
-model_size = "large-v2"
 
-print("---")
-print("文字の書き起こしを開始します。")
-print("Whisperモデルをロード中...")
-model = WhisperModel(model_size, device="cuda", compute_type="float16")
-print("Whisperモデルをロードしました。")
+def load_whisper_model(model_size: str = "large-v2"):
+    print("Whisperモデルをロード中...")
+    model = WhisperModel(model_size, device="cuda", compute_type="float16")
+    print("Whisperモデルをロードしました。")
+    return model
 
 
-def transcribe(audio_path, initial_prompt=None, allow_multi_segment=False):
+def transcribe(
+    model: WhisperModel, audio_path: str, initial_prompt: str, allow_multi_segment=True
+):
     # print(f"{audio_path}を処理中...")
     segments, _ = model.transcribe(
         audio_path, beam_size=5, language="ja", initial_prompt=initial_prompt
@@ -42,24 +44,32 @@ def transcribe(audio_path, initial_prompt=None, allow_multi_segment=False):
     return result
 
 
-try:
-    initial_prompt = sys.argv[1]
-except IndexError:
-    initial_prompt = "こんにちは。元気、ですかー？私はちゃんと元気だよ。"
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
 
-wavs_dir = os.path.join("data", "wavs")
-transcript_path = os.path.join("data", "transcript_utf8.txt")
+    parser.add_argument("--prompt", type=str, default="こんにちは。元気、ですかー？私はちゃんと元気だよ。")
+    parser.add_argument("--data-dir", type=str, default="data")
+    args = parser.parse_args()
 
-wav_paths = sorted(glob.glob(wavs_dir + "/**/*.wav", recursive=True))
-print(f"wavファイルの数: {len(wav_paths)}")
+    initial_prompt = args.prompt
+    data_dir = args.data_dir
+    wavs_dir = os.path.join(data_dir, "wavs")
+    transcript_path = os.path.join(data_dir, "transcript_utf8.txt")
 
-with open(transcript_path, "w", encoding="utf-8") as output:
-    for wav_file in tqdm(wav_paths, file=sys.stdout):
-        file_name = os.path.basename(wav_file)[:-4]
-        transcription = transcribe(wav_file, initial_prompt, allow_multi_segment=True)
-        if transcription is None:
-            continue
-        output.write(f"{file_name}:{transcription}\n")
+    wav_paths = sorted(glob.glob(wavs_dir + "/**/*.wav", recursive=True))
+    print(f"wavファイルの数: {len(wav_paths)}")
 
-print("書き起こし処理が完了しました。`data/transcript_utf8.txt`を確認して、必要なら修正してください。")
-print("---")
+    model = load_whisper_model()
+
+    with open(transcript_path, "w", encoding="utf-8") as output:
+        for wav_file in tqdm(wav_paths, file=sys.stdout):
+            file_name = os.path.basename(wav_file)[:-4]
+            transcription = transcribe(
+                model, wav_file, initial_prompt, allow_multi_segment=True
+            )
+            if transcription is None:
+                continue
+            output.write(f"{file_name}:{transcription}\n")
+
+    print("書き起こし処理が完了しました。`data/transcript_utf8.txt`を確認して、必要なら修正してください。")
+    print("---")
