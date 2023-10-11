@@ -15,11 +15,7 @@ def run_train(
     from conf.train_args import train_args
 
     for i, arg in enumerate(train_args):
-        # argの中に{model_name}があったら置換する
-        if "{model_name}" in arg:
-            train_args[i] = arg.format(model_name=model_name)
-        if "{output_dir}" in arg:
-            train_args[i] = arg.format(output_dir=output_dir)
+        train_args[i] = arg.format(model_name=model_name, output_dir=output_dir)
 
     cmd.extend(train_args)
     cmd.extend(["--batch_bins", str(batch_bins)])
