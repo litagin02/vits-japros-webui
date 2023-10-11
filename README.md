@@ -4,6 +4,8 @@
 
 [🤗 音声合成のデモ](https://huggingface.co/spaces/litagin/vits-japros-webui-demo)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/litagin02/vits-japros-webui/blob/master/vits_japros_train_colab.ipynb)
+
 |音声合成|学習|
 |:---:|:---:|
 |![demo](assets/japros-infer.jpg)|![demo](assets/japros-train.jpg)|
