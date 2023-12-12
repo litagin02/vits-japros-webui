@@ -1,3 +1,7 @@
+[**Bert-VITS2**](https://github.com/fishaudio/Bert-VITS2)のほうが圧倒的に質が高く時間も短くてすみます。こちらはたぶんもう更新しません。
+
+Bert-VITS2の参考記事：https://zenn.dev/litagin/articles/b1ddc1da5ea2b3
+
 # VITS-JaPros-WebUI
 
 日本語VITSモデルを学習でき、アクセント指定込みで音声合成できる、Windows用WebUIです。音声合成のみならグラボがなくても使えます。
