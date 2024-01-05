@@ -1,4 +1,4 @@
-[**Bert-VITS2**](https://github.com/fishaudio/Bert-VITS2)のほうが圧倒的に質が高く時間も短くてすみます。こちらはたぶんもう更新しません。
+# Style-Bert-VITS2の開発に集中するのでこちらはもう更新しません：https://github.com/litagin02/Style-Bert-VITS2
 
 Bert-VITS2の参考記事：https://zenn.dev/litagin/articles/b1ddc1da5ea2b3
 
